@@ -1,0 +1,15 @@
+{% if data is not none %}
+<div class="w-full mt-4 flex justify-center">
+    <div class="flex space-x-4">
+        <form id="removeDuplicatesForm" action="/remove_duplicates" method="post">
+            <input type="hidden" name="filepath" value="{{ filepath }}">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Supprimer les doublons</button>
+        </form>
+
+        <form id="replaceMissingForm" action="/replace_missing" method="post">
+            <input type="hidden" name="filepath" value="{{ filepath }}">
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded cursor-pointer">Remplacer les valeurs manquantes</button>
+        </form>
+    </div>
+</div>
+{% endif %}

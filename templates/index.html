@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Processor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+
+    <div class="flex flex-col items-center">
+
+        <form action="/" method="post" enctype="multipart/form-data" class="mb-8">
+            <input type="file" name="file" class="p-2 border rounded">
+            <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 cursor-pointer">
+        </form>
+
+        {% if data is not none %}
+        <div class="overflow-x-auto overflow-y-auto shadow-lg rounded-lg" style="max-height: 600px; max-width: 1200px;">
+            <table class="bg-white table-fixed w-full">
+                <thead>
+                    <tr>
+                        {% for col in data.columns %}
+                        <th class="py-1 px-1 border w-24">
+                            {{ col }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _, row in data.iterrows() %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="py-1 px-3 border">
+                            {{ cell }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% include 'operations.html' %}
+
+        {% if error_message %}
+        <p class="mt-4 text-red-500">{{ error_message }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        $("#removeDuplicatesForm").submit(function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'post',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert("Doublons supprimés et enregistrés dans: " + response);
+                }
+            });
+        });
+
+        $("#replaceMissingForm").submit(function(event){
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'post',
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert("Valeurs manquantes remplacées et enregistrées dans: " + response);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

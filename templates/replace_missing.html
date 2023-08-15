@@ -1,0 +1,10 @@
+from flask import Blueprint, render_template
+import pandas as pd
+
+replace_missing_blueprint = Blueprint('replace_missing', __name__)
+
+@replace_missing_blueprint.route("/replace_missing", methods=["POST"])
+def replace_missing():
+    # De même, comment accéder à 'uploaded_data' n'est pas encore défini.
+    uploaded_data = uploaded_data.fillna(0)
+    return render_template("replace_missing.html", data=uploaded_data)
